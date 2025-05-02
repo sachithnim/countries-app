@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllCountries, fetchByCode } from "../services/country";
 
-const CountryPage = () => {
+const CountryDetailPage = () => {
   const { code } = useParams();
   const navigate = useNavigate();
 
@@ -134,4 +134,4 @@ const CountryPage = () => {
   );
 };
 
-export default CountryPage;
+export default CountryDetailPage;
