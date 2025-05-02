@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useCountries from "../hooks/useCountries";
 import CountryCard from "../components/CountryCard";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -18,6 +18,7 @@ const Home = () => {
 
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
+
  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -34,7 +35,6 @@ const Home = () => {
     filterByRegionAndLanguage(selectedRegion, language);
   };
 
-  // Clear all filters
   const handleResetFilters = () => {
     setSelectedRegion("");
     setSelectedLanguage("");
@@ -42,7 +42,7 @@ const Home = () => {
     filterByRegionAndLanguage("", "");
   };
 
-  // Pagination logic
+  // Pagination calculations
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedCountries = Array.isArray(countries)
@@ -59,11 +59,26 @@ const Home = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
+  // Clean keyboard pagination navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft" && currentPage > 1) {
+        setCurrentPage((prev) => prev - 1);
+      }
+      if (e.key === "ArrowRight" && currentPage < totalPages) {
+        setCurrentPage((prev) => prev + 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentPage, totalPages]);
+
   return (
     <div>
       <h1 className="text-3xl font-bold p-4">Country Finder</h1>
       <Search onSearch={searchCountries} />
-      
+
       <div className="flex justify-between items-center px-4">
         <Filter
           onRegionFilter={handleRegionFilter}
@@ -75,14 +90,13 @@ const Home = () => {
           onClick={handleResetFilters}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
         >
-          Reset Filter
+          Reset Filters
         </button>
       </div>
 
       {loading && <LoadingSpinner />}
       {error && <div className="text-red-500 p-4">Error: {error}</div>}
 
-      {/* Show match count */}
       {!loading && Array.isArray(countries) && (
         <div className="px-4 py-2 text-gray-700 font-medium">
           Matching Countries: {countries.length}

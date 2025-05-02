@@ -11,7 +11,8 @@ const CountryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch current country and all countries for nav
+  const [currentIndex, setCurrentIndex] = useState(-1);
+
   useEffect(() => {
     const loadCountryData = async () => {
       setLoading(true);
@@ -20,13 +21,12 @@ const CountryPage = () => {
           fetchAllCountries(),
           fetchByCode(code),
         ]);
-
-        // Sort all alphabetically by name
-        const sortedCountries = Array.isArray(all)
+        const sorted = Array.isArray(all)
           ? all.sort((a, b) => a.name.common.localeCompare(b.name.common))
           : [];
-
-        setAllCountries(sortedCountries);
+        const index = sorted.findIndex((c) => c.cca3 === code);
+        setAllCountries(sorted);
+        setCurrentIndex(index);
         setCountry(current);
       } catch {
         setError("Country not found");
@@ -37,13 +37,29 @@ const CountryPage = () => {
     loadCountryData();
   }, [code]);
 
+  // Keyboard Navigations
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft" && currentIndex > 0) {
+        navigate(`/country/${allCountries[currentIndex - 1].cca3}`);
+      } else if (
+        e.key === "ArrowRight" &&
+        currentIndex < allCountries.length - 1
+      ) {
+        navigate(`/country/${allCountries[currentIndex + 1].cca3}`);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, allCountries, navigate]);
+
   if (loading) return <div className="p-4">Loading country details...</div>;
   if (error || !country)
     return (
       <div className="p-4 text-red-500">{error || "Country not found."}</div>
     );
 
-  // Get country info
   const name = country.name?.common || "Unnamed";
   const flag = country.flags?.svg || "";
   const capital = country.capital?.[0] || "N/A";
@@ -58,8 +74,6 @@ const CountryPage = () => {
         .join(", ")
     : "N/A";
 
-  // Find current index in full country list
-  const currentIndex = allCountries.findIndex((c) => c.cca3 === code);
   const prevCode =
     currentIndex > 0 ? allCountries[currentIndex - 1]?.cca3 : null;
   const nextCode =
@@ -69,7 +83,6 @@ const CountryPage = () => {
 
   return (
     <div className="p-6">
-      {/* Navigation buttons */}
       <div className="flex justify-between mb-4">
         <button
           onClick={() => navigate("/")}
@@ -98,7 +111,6 @@ const CountryPage = () => {
         </div>
       </div>
 
-      {/* Country info */}
       <h2 className="text-2xl font-bold mb-4">{name}</h2>
       {flag && (
         <img src={flag} alt={`${name} flag`} className="w-64 h-auto mb-4" />
