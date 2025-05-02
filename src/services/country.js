@@ -1,4 +1,4 @@
-// Fetch all countries 
+// Fetch all countries
 export const fetchAllCountries = async () => {
   try {
     const res = await fetch("https://restcountries.com/v3.1/all");
@@ -8,7 +8,6 @@ export const fetchAllCountries = async () => {
     return [];
   }
 };
-
 
 // Fetch countries by name
 export const fetchCountryByName = async (name) => {
@@ -21,6 +20,27 @@ export const fetchCountryByName = async (name) => {
   }
 };
 
+// Fetch countries by region
+export const fetchByRegion = async (region) => {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/region/${region}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+};
+
+// Fetch countries by language
+export const fetchByLanguage = async (language) => {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/lang/${language}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+};
 
 // Fetch by country code
 export const fetchByCode = async (code) => {

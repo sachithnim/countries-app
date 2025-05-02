@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import {
   fetchAllCountries,
   fetchCountryByName,
+  fetchByRegion,
+  fetchByLanguage,
 } from "../services/country";
 
 const useCountries = () => {
@@ -11,7 +13,7 @@ const useCountries = () => {
   const [regions, setRegions] = useState([]);
   const [languages, setLanguages] = useState([]);
 
-// Search by name
+  // Search by country name
   const searchCountries = async (term) => {
     setLoading(true);
     try {
@@ -24,24 +26,25 @@ const useCountries = () => {
     setLoading(false);
   };
 
-  const filterByRegionAndLanguage = async (region, language) => {
+  // Fetch countries by region
+  const fetchCountriesByRegion = async (region) => {
     setLoading(true);
     try {
-      const data = await fetchAllCountries();
-      const validData = Array.isArray(data) ? data : [];
+      const data = await fetchByRegion(region);
+      setCountries(data);
+    } catch (err) {
+      setCountries([]);
+      setError(err.message);
+    }
+    setLoading(false);
+  };
 
-      const filtered = validData.filter((c) => {
-        const regionMatch = region ? c.region === region : true;
-        const languageMatch = language
-          ? c.languages &&
-            Object.values(c.languages).some(
-              (lang) => lang.toLowerCase() === language.toLowerCase()
-            )
-          : true;
-        return regionMatch && languageMatch;
-      });
-
-      setCountries(filtered);
+  // Fetch countries by language
+  const fetchCountriesByLanguage = async (language) => {
+    setLoading(true);
+    try {
+      const data = await fetchByLanguage(language);
+      setCountries(data);
     } catch (err) {
       setCountries([]);
       setError(err.message);
@@ -85,7 +88,8 @@ const useCountries = () => {
     loading,
     error,
     searchCountries,
-    filterByRegionAndLanguage,
+    fetchCountriesByRegion,
+    fetchCountriesByLanguage,
     regions,
     languages,
   };

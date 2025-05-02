@@ -11,35 +11,30 @@ const Home = () => {
     loading,
     error,
     searchCountries,
-    filterByRegionAndLanguage,
+    fetchCountriesByRegion,
+    fetchCountriesByLanguage,
     regions,
     languages,
   } = useCountries();
-
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-
- // Pagination state
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   const handleRegionFilter = (region) => {
-    setSelectedRegion(region);
+    // fetch countries based on region directly
     setCurrentPage(1);
-    filterByRegionAndLanguage(region, selectedLanguage);
+    fetchCountriesByRegion(region);
   };
 
   const handleLanguageFilter = (language) => {
-    setSelectedLanguage(language);
+    // fetch countries based on language directly
     setCurrentPage(1);
-    filterByRegionAndLanguage(selectedRegion, language);
+    fetchCountriesByLanguage(language);
   };
 
   const handleResetFilters = () => {
-    setSelectedRegion("");
-    setSelectedLanguage("");
     setCurrentPage(1);
-    filterByRegionAndLanguage("", "");
+    fetchCountriesByRegion(""); 
   };
 
   // Pagination calculations
