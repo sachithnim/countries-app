@@ -20,3 +20,15 @@ export const fetchCountryByName = async (name) => {
     return [];
   }
 };
+
+
+// Fetch by country code
+export const fetchByCode = async (code) => {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/alpha/${code}`);
+    const data = await res.json();
+    return Array.isArray(data) && data.length > 0 ? data[0] : null;
+  } catch {
+    return null;
+  }
+};
