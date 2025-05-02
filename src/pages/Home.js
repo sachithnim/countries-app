@@ -18,8 +18,7 @@ const Home = () => {
 
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
-
-  // Pagination state
+ // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -35,7 +34,15 @@ const Home = () => {
     filterByRegionAndLanguage(selectedRegion, language);
   };
 
-  // Get visible items for the current page
+  // Clear all filters
+  const handleResetFilters = () => {
+    setSelectedRegion("");
+    setSelectedLanguage("");
+    setCurrentPage(1);
+    filterByRegionAndLanguage("", "");
+  };
+
+  // Pagination logic
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedCountries = Array.isArray(countries)
@@ -56,17 +63,27 @@ const Home = () => {
     <div>
       <h1 className="text-3xl font-bold p-4">Country Finder</h1>
       <Search onSearch={searchCountries} />
-      <Filter
-        onRegionFilter={handleRegionFilter}
-        onLanguageFilter={handleLanguageFilter}
-        regions={regions}
-        languages={languages}
-      />
+      
+      <div className="flex justify-between items-center px-4">
+        <Filter
+          onRegionFilter={handleRegionFilter}
+          onLanguageFilter={handleLanguageFilter}
+          regions={regions}
+          languages={languages}
+        />
+        <button
+          onClick={handleResetFilters}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Reset Filter
+        </button>
+      </div>
 
       {loading && <LoadingSpinner />}
       {error && <div className="text-red-500 p-4">Error: {error}</div>}
 
-      {!loading && (
+      {/* Show match count */}
+      {!loading && Array.isArray(countries) && (
         <div className="px-4 py-2 text-gray-700 font-medium">
           Matching Countries: {countries.length}
         </div>
@@ -78,7 +95,6 @@ const Home = () => {
         ))}
       </div>
 
-      {/*Pagination controls */}
       {countries.length > itemsPerPage && (
         <div className="flex justify-center items-center space-x-4 p-4">
           <button
