@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useCountriges from "../hooks/useCountries";
+import useCountries from "../hooks/useCountries";
 import CountryCard from "../components/CountryCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Search from "../components/Search";
@@ -21,7 +21,7 @@ const Home = () => {
     currencies,
     capitals,
     subregions,
-    fetchAllCountriesData, 
+    fetchAllCountriesData, // Use the function here
   } = useCountries();
 
   // Pagination state
@@ -75,6 +75,7 @@ const Home = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
+
   // Clean keyboard pagination navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -89,7 +90,6 @@ const Home = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentPage, totalPages]);
-
   return (
     <div>
       <h1 className="text-3xl font-bold p-4">Country Finder</h1>
