@@ -52,3 +52,37 @@ export const fetchByCode = async (code) => {
     return null;
   }
 };
+
+
+// Fetch countries by currency
+export const fetchByCurrency = async (currency) => {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/currency/${currency}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+};
+
+// Fetch countries by capital
+export const fetchByCapital = async (capital) => {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/capital/${capital}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+};
+
+// Fetch countries by subregion
+export const fetchBySubregion = async (subregion) => {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/subregion/${subregion}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+};

@@ -13,28 +13,48 @@ const Home = () => {
     searchCountries,
     fetchCountriesByRegion,
     fetchCountriesByLanguage,
+    fetchCountriesByCurrency,
+    fetchCountriesByCapital,
+    fetchCountriesBySubregion,
     regions,
     languages,
+    currencies,
+    capitals,
+    subregions,
   } = useCountries();
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   const handleRegionFilter = (region) => {
-    // fetch countries based on region directly
     setCurrentPage(1);
     fetchCountriesByRegion(region);
   };
 
   const handleLanguageFilter = (language) => {
-    // fetch countries based on language directly
     setCurrentPage(1);
     fetchCountriesByLanguage(language);
   };
 
+  const handleCurrencyFilter = (currency) => {
+    setCurrentPage(1);
+    fetchCountriesByCurrency(currency);
+  };
+
+  const handleCapitalFilter = (capital) => {
+    setCurrentPage(1);
+    fetchCountriesByCapital(capital);
+  };
+
+  const handleSubregionFilter = (subregion) => {
+    setCurrentPage(1);
+    fetchCountriesBySubregion(subregion);
+  };
+
   const handleResetFilters = () => {
     setCurrentPage(1);
-    fetchCountriesByRegion(""); 
+    fetchCountriesByRegion(""); // Reset to all countries
   };
 
   // Pagination calculations
@@ -78,8 +98,14 @@ const Home = () => {
         <Filter
           onRegionFilter={handleRegionFilter}
           onLanguageFilter={handleLanguageFilter}
+          onCurrencyFilter={handleCurrencyFilter}
+          onCapitalFilter={handleCapitalFilter}
+          onSubregionFilter={handleSubregionFilter}
           regions={regions}
           languages={languages}
+          currencies={currencies}
+          capitals={capitals}
+          subregions={subregions}
         />
         <button
           onClick={handleResetFilters}
