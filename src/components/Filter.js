@@ -13,7 +13,7 @@ const Filter = ({
   selectedLanguage,
   selectedCurrency,
   selectedCapital,
-  selectedSubregion,
+  selectedSubregion
 }) => {
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -23,7 +23,9 @@ const Filter = ({
         onChange={(e) => onRegionFilter(e.target.value)}
         className="border p-2 rounded"
       >
-        <option value="">Select Region</option>
+        <option value="" disabled>
+          Select Region
+        </option>
         {regions.map((region) => (
           <option key={region} value={region}>
             {region}
@@ -37,7 +39,9 @@ const Filter = ({
         onChange={(e) => onLanguageFilter(e.target.value)}
         className="border p-2 rounded"
       >
-        <option value="">Select Language</option>
+        <option value="" disabled>
+          Select Language
+        </option>
         {languages.map((lang) => (
           <option key={lang} value={lang}>
             {lang}
@@ -51,7 +55,9 @@ const Filter = ({
         onChange={(e) => onCurrencyFilter(e.target.value)}
         className="border p-2 rounded"
       >
-        <option value="">Select Currency</option>
+        <option value="" disabled>
+          Select Currency
+        </option>
         {currencies.map((currency) => (
           <option key={currency} value={currency}>
             {currency.toUpperCase()}
@@ -65,7 +71,9 @@ const Filter = ({
         onChange={(e) => onCapitalFilter(e.target.value)}
         className="border p-2 rounded"
       >
-        <option value="">Select Capital</option>
+        <option value="" disabled>
+          Select Capital
+        </option>
         {capitals.map((capital) => (
           <option key={capital} value={capital}>
             {capital}
@@ -79,7 +87,9 @@ const Filter = ({
         onChange={(e) => onSubregionFilter(e.target.value)}
         className="border p-2 rounded"
       >
-        <option value="">Select Subregion</option>
+        <option value="" disabled>
+          Select Subregion
+        </option>
         {subregions.map((subregion) => (
           <option key={subregion} value={subregion}>
             {subregion}
