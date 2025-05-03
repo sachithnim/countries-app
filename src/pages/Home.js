@@ -16,6 +16,7 @@ const Home = () => {
     fetchCountriesByCurrency,
     fetchCountriesByCapital,
     fetchCountriesBySubregion,
+    fetchAllCountries,  
     regions,
     languages,
     currencies,
@@ -27,34 +28,52 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  // Filter state
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCapital, setSelectedCapital] = useState("");
+  const [selectedSubregion, setSelectedSubregion] = useState("");
+
   const handleRegionFilter = (region) => {
+    setSelectedRegion(region);
     setCurrentPage(1);
     fetchCountriesByRegion(region);
   };
 
   const handleLanguageFilter = (language) => {
+    setSelectedLanguage(language);
     setCurrentPage(1);
     fetchCountriesByLanguage(language);
   };
 
   const handleCurrencyFilter = (currency) => {
+    setSelectedCurrency(currency);
     setCurrentPage(1);
     fetchCountriesByCurrency(currency);
   };
 
   const handleCapitalFilter = (capital) => {
+    setSelectedCapital(capital);
     setCurrentPage(1);
     fetchCountriesByCapital(capital);
   };
 
   const handleSubregionFilter = (subregion) => {
+    setSelectedSubregion(subregion);
     setCurrentPage(1);
     fetchCountriesBySubregion(subregion);
   };
 
+  // Proper reset filters function
   const handleResetFilters = () => {
-    setCurrentPage(1);
-    fetchCountriesByRegion(""); // Reset to all countries
+    setSelectedRegion("");       
+    setSelectedLanguage("");     
+    setSelectedCurrency("");     
+    setSelectedCapital("");      
+    setSelectedSubregion("");    
+    setCurrentPage(1);           
+    fetchAllCountries();         
   };
 
   // Pagination calculations
@@ -106,6 +125,11 @@ const Home = () => {
           currencies={currencies}
           capitals={capitals}
           subregions={subregions}
+          selectedRegion={selectedRegion}
+          selectedLanguage={selectedLanguage}
+          selectedCurrency={selectedCurrency}
+          selectedCapital={selectedCapital}
+          selectedSubregion={selectedSubregion}
         />
         <button
           onClick={handleResetFilters}

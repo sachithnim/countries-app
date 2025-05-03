@@ -9,11 +9,17 @@ const Filter = ({
   currencies,
   capitals,
   subregions,
+  selectedRegion,
+  selectedLanguage,
+  selectedCurrency,
+  selectedCapital,
+  selectedSubregion,
 }) => {
   return (
     <div className="flex flex-col gap-4 p-4">
       {/* Region Dropdown */}
       <select
+        value={selectedRegion}
         onChange={(e) => onRegionFilter(e.target.value)}
         className="border p-2 rounded"
       >
@@ -27,6 +33,7 @@ const Filter = ({
 
       {/* Language Dropdown */}
       <select
+        value={selectedLanguage}
         onChange={(e) => onLanguageFilter(e.target.value)}
         className="border p-2 rounded"
       >
@@ -40,6 +47,7 @@ const Filter = ({
 
       {/* Currency Dropdown */}
       <select
+        value={selectedCurrency}
         onChange={(e) => onCurrencyFilter(e.target.value)}
         className="border p-2 rounded"
       >
@@ -53,6 +61,7 @@ const Filter = ({
 
       {/* Capital Dropdown */}
       <select
+        value={selectedCapital}
         onChange={(e) => onCapitalFilter(e.target.value)}
         className="border p-2 rounded"
       >
@@ -66,6 +75,7 @@ const Filter = ({
 
       {/* Subregion Dropdown */}
       <select
+        value={selectedSubregion}
         onChange={(e) => onSubregionFilter(e.target.value)}
         className="border p-2 rounded"
       >
