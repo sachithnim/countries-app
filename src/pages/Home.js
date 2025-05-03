@@ -28,34 +28,69 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  // State for selected filters
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCapital, setSelectedCapital] = useState("");
+  const [selectedSubregion, setSelectedSubregion] = useState("");
+
+  // State for search input
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Handle filter changes
   const handleRegionFilter = (region) => {
+    setSelectedRegion(region);
     setCurrentPage(1);
     fetchCountriesByRegion(region);
   };
 
   const handleLanguageFilter = (language) => {
+    setSelectedLanguage(language);
     setCurrentPage(1);
     fetchCountriesByLanguage(language);
   };
 
   const handleCurrencyFilter = (currency) => {
+    setSelectedCurrency(currency);
     setCurrentPage(1);
     fetchCountriesByCurrency(currency);
   };
 
   const handleCapitalFilter = (capital) => {
+    setSelectedCapital(capital);
     setCurrentPage(1);
     fetchCountriesByCapital(capital);
   };
 
   const handleSubregionFilter = (subregion) => {
+    setSelectedSubregion(subregion);
     setCurrentPage(1);
     fetchCountriesBySubregion(subregion);
   };
 
-  const handleResetFilters = () => {
+  // Handle search
+  const handleSearch = (term) => {
+    setSearchTerm(term);
     setCurrentPage(1);
-    fetchAllCountriesData(); // Call the updated function here
+    searchCountries(term);
+  };
+
+  // Handle reset
+  const handleResetFilters = () => {
+    // Reset all filter states
+    setSelectedRegion("");
+    setSelectedLanguage("");
+    setSelectedCurrency("");
+    setSelectedCapital("");
+    setSelectedSubregion("");
+    setSearchTerm(""); 
+
+    // Reset page number to 1
+    setCurrentPage(1);
+
+    // Fetch all countries after reset
+    fetchAllCountriesData();
   };
 
   // Pagination calculations
@@ -75,7 +110,6 @@ const Home = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
-
   // Clean keyboard pagination navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -90,10 +124,13 @@ const Home = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentPage, totalPages]);
+
   return (
     <div>
       <h1 className="text-3xl font-bold p-4">Country Finder</h1>
-      <Search onSearch={searchCountries} />
+
+      {/* Pass search handler to the Search component */}
+      <Search onSearch={handleSearch} searchTerm={searchTerm} />
 
       <div className="flex justify-between items-center px-4">
         <Filter
@@ -107,6 +144,11 @@ const Home = () => {
           currencies={currencies}
           capitals={capitals}
           subregions={subregions}
+          selectedRegion={selectedRegion}
+          selectedLanguage={selectedLanguage}
+          selectedCurrency={selectedCurrency}
+          selectedCapital={selectedCapital}
+          selectedSubregion={selectedSubregion}
         />
         <button
           onClick={handleResetFilters}
