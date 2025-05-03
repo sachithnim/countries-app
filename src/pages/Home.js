@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useCountries from "../hooks/useCountries";
+import useCountriges from "../hooks/useCountries";
 import CountryCard from "../components/CountryCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Search from "../components/Search";

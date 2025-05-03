@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   fetchAllCountries,
   fetchCountryByName,
@@ -111,61 +111,57 @@ const useCountries = () => {
   };
 
   // Fetch all countries and unique regions/languages/currencies/capitals/subregions
-  useEffect(() => {
-    const fetchInitial = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchAllCountries();
-        const validData = Array.isArray(data) ? data : [];
-        setCountries(validData);
+  const fetchAllCountriesFunc = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchAllCountries();
+      const validData = Array.isArray(data) ? data : [];
+      setCountries(validData);
 
-        // Extract regions
-        const regionList = Array.from(
-          new Set(validData.map((c) => c.region).filter(Boolean))
-        );
-        setRegions(regionList);
+      // Extract regions
+      const regionList = Array.from(
+        new Set(validData.map((c) => c.region).filter(Boolean))
+      );
+      setRegions(regionList);
 
-        // Extract languages
-        const allLangs = validData.flatMap((c) =>
-          c.languages ? Object.values(c.languages) : []
-        );
-        const uniqueLangs = Array.from(new Set(allLangs)).sort();
-        setLanguages(uniqueLangs);
+      // Extract languages
+      const allLangs = validData.flatMap((c) =>
+        c.languages ? Object.values(c.languages) : []
+      );
+      const uniqueLangs = Array.from(new Set(allLangs)).sort();
+      setLanguages(uniqueLangs);
 
-        // Extract currencies
-        const allCurrencies = validData.flatMap((c) =>
-          c.currencies ? Object.keys(c.currencies) : []
-        );
-        const uniqueCurrencies = Array.from(new Set(allCurrencies)).sort();
-        setCurrencies(uniqueCurrencies);
+      // Extract currencies
+      const allCurrencies = validData.flatMap((c) =>
+        c.currencies ? Object.keys(c.currencies) : []
+      );
+      const uniqueCurrencies = Array.from(new Set(allCurrencies)).sort();
+      setCurrencies(uniqueCurrencies);
 
-        // Extract capitals
-        const allCapitals = validData
-          .map((c) => c.capital && c.capital[0])
-          .filter(Boolean);
-        const uniqueCapitals = Array.from(new Set(allCapitals)).sort();
-        setCapitals(uniqueCapitals);
+      // Extract capitals
+      const allCapitals = validData
+        .map((c) => c.capital && c.capital[0])
+        .filter(Boolean);
+      const uniqueCapitals = Array.from(new Set(allCapitals)).sort();
+      setCapitals(uniqueCapitals);
 
-        // Extract subregions
-        const allSubregions = validData
-          .map((c) => c.subregion)
-          .filter(Boolean);
-        const uniqueSubregions = Array.from(new Set(allSubregions)).sort();
-        setSubregions(uniqueSubregions);
-      } catch (err) {
-        setCountries([]);
-        setRegions([]);
-        setLanguages([]);
-        setCurrencies([]);
-        setCapitals([]);
-        setSubregions([]);
-        setError(err.message);
-      }
-      setLoading(false);
-    };
-
-    fetchInitial();
-  }, []);
+      // Extract subregions
+      const allSubregions = validData
+        .map((c) => c.subregion)
+        .filter(Boolean);
+      const uniqueSubregions = Array.from(new Set(allSubregions)).sort();
+      setSubregions(uniqueSubregions);
+    } catch (err) {
+      setCountries([]);
+      setRegions([]);
+      setLanguages([]);
+      setCurrencies([]);
+      setCapitals([]);
+      setSubregions([]);
+      setError(err.message);
+    }
+    setLoading(false);
+  };
 
   return {
     countries,
@@ -177,7 +173,11 @@ const useCountries = () => {
     fetchCountriesByCurrency,
     fetchCountriesByCapital,
     fetchCountriesBySubregion,
+<<<<<<< HEAD
     fetchAllCountriesData,
+=======
+    fetchAllCountries: fetchAllCountriesFunc,  // Make sure this is returned
+>>>>>>> bc2305d6c83033ce744708e97827e68ad00014c5
     regions,
     languages,
     currencies,
