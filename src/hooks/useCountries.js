@@ -19,6 +19,19 @@ const useCountries = () => {
   const [capitals, setCapitals] = useState([]);
   const [subregions, setSubregions] = useState([]);
 
+  // Fetch all countries
+  const fetchAllCountriesData = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchAllCountries();
+      setCountries(data);
+    } catch (err) {
+      setError(err.message);
+      setCountries([]);
+    }
+    setLoading(false);
+  };
+
   // Search by country name
   const searchCountries = async (term) => {
     setLoading(true);
@@ -164,6 +177,7 @@ const useCountries = () => {
     fetchCountriesByCurrency,
     fetchCountriesByCapital,
     fetchCountriesBySubregion,
+    fetchAllCountriesData,
     regions,
     languages,
     currencies,

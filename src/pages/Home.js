@@ -21,6 +21,7 @@ const Home = () => {
     currencies,
     capitals,
     subregions,
+    fetchAllCountriesData, 
   } = useCountries();
 
   // Pagination state
@@ -54,7 +55,7 @@ const Home = () => {
 
   const handleResetFilters = () => {
     setCurrentPage(1);
-    fetchCountriesByRegion(""); // Reset to all countries
+    fetchAllCountriesData(); // Call the updated function here
   };
 
   // Pagination calculations
