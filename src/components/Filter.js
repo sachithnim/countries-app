@@ -13,15 +13,15 @@ const Filter = ({
   selectedLanguage,
   selectedCurrency,
   selectedCapital,
-  selectedSubregion
+  selectedSubregion,
 }) => {
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex gap-4 w-full flex-wrap">
       {/* Region Dropdown */}
       <select
         value={selectedRegion}
         onChange={(e) => onRegionFilter(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded-lg bg-white text-black shadow-md w-48"
       >
         <option value="" disabled>
           Select Region
@@ -37,7 +37,7 @@ const Filter = ({
       <select
         value={selectedLanguage}
         onChange={(e) => onLanguageFilter(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded-lg bg-white text-black shadow-md w-48"
       >
         <option value="" disabled>
           Select Language
@@ -53,7 +53,7 @@ const Filter = ({
       <select
         value={selectedCurrency}
         onChange={(e) => onCurrencyFilter(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded-lg bg-white text-black shadow-md w-48"
       >
         <option value="" disabled>
           Select Currency
@@ -69,7 +69,7 @@ const Filter = ({
       <select
         value={selectedCapital}
         onChange={(e) => onCapitalFilter(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded-lg bg-white text-black shadow-md w-48"
       >
         <option value="" disabled>
           Select Capital
@@ -85,7 +85,7 @@ const Filter = ({
       <select
         value={selectedSubregion}
         onChange={(e) => onSubregionFilter(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded-lg bg-white text-black shadow-md w-48"
       >
         <option value="" disabled>
           Select Subregion
